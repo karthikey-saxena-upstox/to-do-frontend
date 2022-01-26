@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(185, 157, 240);
+}
+
+.input {
+    padding: 5px 10px;
+    width: 90%;
+    border-radius: 5px;
+    border: 2px solid purple;
+}
+
+.inputSection {
+    border: 2px solid purple;
+    border-radius: 10px;
+    background-color: rgb(180, 119, 237);
+}
+
+.expand {
+    transition: all 0.3s ease-in-out;
+}
+
+.expand:hover {
+transform: scale(1.10);
+cursor: pointer;
+}
+
+.item {
+    border: 2px solid purple;
+    border-radius: 8px;
+    background-color: rgb(211, 165, 254);
+}
+
+.title {
+    font-size: x-large;
+    background-color: rgb(180, 119, 237);
+}
+
+.description {
+    font-size: large;
+}
+
+.container {
+    width: 70%;
+}
