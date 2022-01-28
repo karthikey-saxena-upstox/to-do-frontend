@@ -13,7 +13,6 @@ const ToDos: FC = () => {
         const fetch = async() => {
             try {
                 const data = await getAll();
-                console.log(data);
                 setToDoItems(data);
             }
             catch(err) {
@@ -36,10 +35,9 @@ const ToDos: FC = () => {
 
     const updateToDo = async(data: ITodos) => {
         try {
-            const response = await update(data);
+            await update(data);
             const items = await getAll();
             setToDoItems(items);
-            console.log(response);
         }
         catch(err) {
             console.log(err);
@@ -50,7 +48,6 @@ const ToDos: FC = () => {
         try {
             const response = await add(data);
             setToDoItems((prev) => [...prev, response]);
-            console.log(response);
         }
         catch(err) {
             console.log(err);
