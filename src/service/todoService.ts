@@ -1,36 +1,29 @@
 import axios from "axios";
+import { ITodo, ITodos } from "../interfaces/interface";
 
 const backendUrl = "http://localhost:8080/todos"
 
-const getAllToDos = async() => {
+export const getAll = async() => {
     const response = await axios.get(backendUrl);
     return response.data;
 }
 
-const getToDoById = async(id) => {
+export const getById = async(id: number) => {
     const response = await axios.get(backendUrl + `/${id}`);
     return response.data;
 }
 
-const addToDo = async(data) => {
+export const add = async(data: ITodo) => {
     const response = await axios.post(backendUrl, data);
     return response.data;
 }
 
-const updateToDo = async(data) => {
+export const update = async(data: ITodos) => {
     const response = await axios.put(backendUrl, data);
     return response.data;
 }
 
-const deleteToDo = async(id) => {
+export const deleteItem = async(id: number) => {
     const response = await axios.delete(backendUrl + `?id=${id}`);
     return response.data;
-}
-
-export {
-    getAllToDos,
-    getToDoById,
-    addToDo,
-    updateToDo,
-    deleteToDo
 }

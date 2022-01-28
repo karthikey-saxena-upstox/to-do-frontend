@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
+import { ITodo } from "../interfaces/interface";
 
-const Input = (props) => {
+interface Props {
+    change(data: ITodo): void
+}
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+const Input: FC<Props> = ({change}: Props) => {
 
-    const change = () => {
-        props.change({title, description});
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+
+    const changeData = (): void => {
+        change({title, description});
         setDescription("");
         setTitle("");
     }
@@ -24,7 +29,6 @@ const Input = (props) => {
                 />
             <h5 className = "mt-3"> Enter Description </h5>
                 <textarea 
-                    type = "text" 
                     value = {description}
                     onChange = {(e) => setDescription(e.target.value)}
                     placeholder = "Description"
@@ -34,7 +38,7 @@ const Input = (props) => {
             <div className = "mt-4"> 
                 <button 
                     className = "btn btn-dark expand" 
-                    onClick = {() => change()}
+                    onClick = {() => changeData()}
                 > Add </button>
             </div>
         </div>

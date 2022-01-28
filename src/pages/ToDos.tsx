@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Heading from "../components/Heading";
 import Input from "../components/Input";
 import ToDoItem from "../components/ToDoItem";
-const toDoService = require("../routes/todoRoutes");
+import { ITodo, ITodos } from "../interfaces/interface";
+import { add, update, deleteItem, getAll } from "../service/todoService";
 
+const ToDos: FC = () => {
 
-const ToDos = () => {
-
-    const [toDoItems, setToDoItems] = useState([]);
+    const [toDoItems, setToDoItems] = useState<ITodos[]>([]);
 
     useEffect(() => {
         const fetch = async() => {
             try {
-                const data = await toDoService.getAllToDos();
+                const data = await getAll();
                 console.log(data);
                 setToDoItems(data);
             }
@@ -23,10 +23,10 @@ const ToDos = () => {
         fetch();
     }, []);
 
-    const deleteToDo = async(id) => {
+    const deleteToDo = async(id: number) => {
         try {
-            await toDoService.deleteToDo(id);
-            const items = await toDoService.getAllToDos();
+            await deleteItem(id);
+            const items = await getAll();
             setToDoItems(items);
         }
         catch(err) {
@@ -34,10 +34,10 @@ const ToDos = () => {
         }
     }
 
-    const updateToDo = async(data) => {
+    const updateToDo = async(data: ITodos) => {
         try {
-            const response = await toDoService.updateToDo(data);
-            const items = await toDoService.getAllToDos();
+            const response = await update(data);
+            const items = await getAll();
             setToDoItems(items);
             console.log(response);
         }
@@ -46,9 +46,9 @@ const ToDos = () => {
         }   
     }
 
-    const addToDo = async(data) => {
+    const addToDo = async(data: ITodo) => {
         try {
-            const response = await toDoService.addToDo(data);
+            const response = await add(data);
             setToDoItems((prev) => [...prev, response]);
             console.log(response);
         }
@@ -62,15 +62,13 @@ const ToDos = () => {
         <Heading content = "ToDo List App"/>
         <Input change = {(data) => addToDo(data)}/>
         <Heading content = "My List"/>
-        {toDoItems.map((item) => {
+        {toDoItems.map((item: ITodos) => {
             return (
                 <ToDoItem 
                     key = {item.id}
-                    id = {item.id}
-                    title = {item.title}
-                    description = {item.description}
-                    delete = {(id) => deleteToDo(id)}
-                    update = {(data) => updateToDo(data)}
+                    item = {item}
+                    deleteItem = {(id: number) => deleteToDo(id)}
+                    update = {(data: ITodos) => updateToDo(data)}
                 />
             );
         })}
