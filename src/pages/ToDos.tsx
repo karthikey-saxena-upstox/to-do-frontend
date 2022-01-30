@@ -10,17 +10,18 @@ const ToDos: FC = () => {
     const [toDoItems, setToDoItems] = useState<ITodos[]>([]);
 
     useEffect(() => {
-        const fetch = async() => {
-            try {
-                const data = await getAll();
-                setToDoItems(data);
-            }
-            catch(err) {
-                console.log(err);
-            }
-        }
-        fetch();
+        fetchToDos();
     }, []);
+
+    const fetchToDos = async() => {
+        try {
+            const data = await getAll();
+            setToDoItems(data);
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
 
     const deleteToDo = async(id: number) => {
         try {
