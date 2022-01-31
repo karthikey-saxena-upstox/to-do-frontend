@@ -14,12 +14,14 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
     const [editing, setEditing] = useState<boolean>(false);
 
     const edit = () => {
+        console.log("editing started");
         setEditing(true);
     }
 
     const updateToDo = () => {
         update({id: item.id, title, description});
         setEditing(false);
+        console.log("editing ends");
     }
 
     return (
@@ -29,11 +31,13 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
                 <div className = "description pl-3 pr-3 pb-2 pt-1"> {item.description}</div>
                 <div className = "mt-2 text-center">
                     <button 
-                        className = "btn btn-sm btn-dark expand" 
+                        className = "btn btn-sm btn-dark expand"
+                        data-testid = "deleteButton" 
                         onClick = {() => deleteItem(item.id)}
                     > Delete </button>   
                     <button 
                         className = "btn btn-sm btn-dark expand ml-3" 
+                        data-testid = "editButton"
                         onClick = {() => edit()}
                     > Edit </button>  
                 </div> 
@@ -43,6 +47,7 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
                     <input 
                         type = "text" 
                         value = {title}
+                        data-testid = "editedTitle"
                         onChange = {(e) => setTitle(e.target.value)}
                         placeholder = "Title" 
                         className = "input"
@@ -51,6 +56,7 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
                     <textarea  
                         value = {description}
                         onChange = {(e) => setDescription(e.target.value)}
+                        data-testid = "editedDesc"
                         placeholder = "Description"
                         rows = {3}
                         className = "input"
@@ -58,6 +64,7 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
                 <div className = "mt-2 text-center">
                     <button 
                         className = "btn btn-sm btn-dark expand ml-3" 
+                        data-testid = "updateButton"
                         onClick = {() => updateToDo()}
                     > Update </button> 
                 </div>

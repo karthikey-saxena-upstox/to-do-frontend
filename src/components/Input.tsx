@@ -22,6 +22,7 @@ const Input: FC<Props> = ({change}: Props) => {
             <h5 className = "mt-3"> Enter Title </h5>
                 <input 
                     type = "text" 
+                    data-testid = "inputTitle"
                     value = {title}
                     onChange = {(e) => setTitle(e.target.value)}
                     placeholder = "Title" 
@@ -30,6 +31,7 @@ const Input: FC<Props> = ({change}: Props) => {
             <h5 className = "mt-3"> Enter Description </h5>
                 <textarea 
                     value = {description}
+                    data-testid = "descTitle"
                     onChange = {(e) => setDescription(e.target.value)}
                     placeholder = "Description"
                     rows = {3}

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import Heading from "../components/Heading";
 import Input from "../components/Input";
-import ToDoItem from "../components/ToDoItem";
+import ToDoList from "../components/ToDoList"; 
 import { ITodo, ITodos } from "../interfaces/interface";
 import { add, update, deleteItem, getAll } from "../service/todoService";
 
@@ -25,6 +25,8 @@ const ToDos: FC = () => {
 
     const deleteToDo = async(id: number) => {
         try {
+            console.log("deleting....");
+            
             await deleteItem(id);
             const items = await getAll();
             setToDoItems(items);
@@ -60,16 +62,11 @@ const ToDos: FC = () => {
         <Heading content = "ToDo List App"/>
         <Input change = {(data) => addToDo(data)}/>
         <Heading content = "My List"/>
-        {toDoItems.map((item: ITodos) => {
-            return (
-                <ToDoItem 
-                    key = {item.id}
-                    item = {item}
-                    deleteItem = {(id: number) => deleteToDo(id)}
-                    update = {(data: ITodos) => updateToDo(data)}
-                />
-            );
-        })}
+        <ToDoList 
+            items = {toDoItems} 
+            deleteItem = {(id: number) => deleteToDo(id)}
+            update = {(data: ITodos) => updateToDo(data)}
+        />
     </div>
     );
 
