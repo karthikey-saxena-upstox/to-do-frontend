@@ -1,35 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
+import { observer } from "mobx-react-lite";
 import Heading from "../components/Heading";
 import Input from "../components/Input";
 import ToDoList from "../components/ToDoList"; 
-import { ITodo, ITodos } from "../interfaces/interface";
-import { add, update, deleteItem, getAll } from "../service/todoService";
+import { ITodo, ITodos, IStore } from "../interfaces/interface";
 
-const ToDos: FC = () => {
+interface Props {
+    store: IStore
+}
 
-    const [toDoItems, setToDoItems] = useState<ITodos[]>([]);
-
-    useEffect(() => {
-        fetchToDos();
-    }, []);
-
-    const fetchToDos = async() => {
-        try {
-            const data = await getAll();
-            setToDoItems(data);
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
+const ToDos: FC<Props> = observer(({ store }: Props) => {
 
     const deleteToDo = async(id: number) => {
         try {
-            console.log("deleting....");
-            
-            await deleteItem(id);
-            const items = await getAll();
-            setToDoItems(items);
+            store.deleteToDo(id);
         }
         catch(err) {
             console.log(err);
@@ -38,9 +22,7 @@ const ToDos: FC = () => {
 
     const updateToDo = async(data: ITodos) => {
         try {
-            await update(data);
-            const items = await getAll();
-            setToDoItems(items);
+            store.updateToDo(data.id, data);
         }
         catch(err) {
             console.log(err);
@@ -49,8 +31,7 @@ const ToDos: FC = () => {
 
     const addToDo = async(data: ITodo) => {
         try {
-            const response = await add(data);
-            setToDoItems((prev) => [...prev, response]);
+            store.createToDo(data);
         }
         catch(err) {
             console.log(err);
@@ -63,13 +44,13 @@ const ToDos: FC = () => {
         <Input change = {(data) => addToDo(data)}/>
         <Heading content = "My List"/>
         <ToDoList 
-            items = {toDoItems} 
+            items = {store.toDoItems} 
             deleteItem = {(id: number) => deleteToDo(id)}
             update = {(data: ITodos) => updateToDo(data)}
         />
     </div>
     );
 
-}
+})
 
 export default ToDos;

@@ -1,11 +1,12 @@
 import React, { FC, useState } from "react";
 import { ITodo } from "../interfaces/interface";
+import { observer } from "mobx-react-lite";
 
 interface Props {
     change(data: ITodo): void
 }
 
-const Input: FC<Props> = ({change}: Props) => {
+const Input: FC<Props> = observer(({change}: Props) => {
 
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -45,6 +46,6 @@ const Input: FC<Props> = ({change}: Props) => {
             </div>
         </div>
     );
-}
+});
 
 export default Input;

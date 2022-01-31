@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React, { FC, useState } from "react";
 import { ITodos } from "../interfaces/interface";
 
@@ -7,7 +8,7 @@ interface Props {
     update(data: ITodos): void
 }
 
-const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
+const ToDoItem: FC<Props> = observer(({item, update, deleteItem}: Props) => {
 
     const [title, setTitle] = useState<string>(item.title);
     const [description, setDescription] = useState<string>(item.description);
@@ -71,6 +72,6 @@ const ToDoItem: FC<Props> = ({item, update, deleteItem}: Props) => {
             </div>
         </div>
     );
-}
+});
 
 export default ToDoItem;

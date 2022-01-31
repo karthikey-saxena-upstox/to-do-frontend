@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import ToDoItem from "./ToDoItem";
 import { ITodos } from "../interfaces/interface";
+import { observer } from "mobx-react-lite";
 
 interface Props {
     items: ITodos[],
@@ -8,7 +9,7 @@ interface Props {
     update(data: ITodos): void
 }
 
-const ToDoList: FC<Props> = ({items, update, deleteItem}: Props) => {
+const ToDoList: FC<Props> = observer(({items, update, deleteItem}: Props) => {
 
     return (
         <div>
@@ -24,6 +25,6 @@ const ToDoList: FC<Props> = ({items, update, deleteItem}: Props) => {
             })}
         </div>
     );
-}
+});
 
 export default ToDoList;

@@ -2,9 +2,10 @@ import App from "../app/App";
 import React from "react";
 import axios from "axios";
 import ToDoList from "../components/ToDoList";
+import Input from "../components/Input";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { deleteItem, update } from "../service/todoService";
+import { deleteItem, update, add } from "../service/todoService";
 
 import "@testing-library/jest-dom";
 
@@ -32,21 +33,20 @@ describe("components should render without crashing", () => {
     });
 
     it("Todo should get created - Post Request", async () => {
-        const todos = [
-            { id: 1, title: "title", description: "desc" }
-        ];
         axios.post.mockImplementationOnce(() => Promise.resolve({}));
-        render(<App />);
+        render(<Input change = {(data) => add(data)} />);
         userEvent.type(screen.getByTestId("inputTitle"), "title");
         userEvent.type(screen.getByTestId("descTitle"), "desc");
         userEvent.click(screen.getByRole("button", {name: "Add"}));
-        expect(axios.post).toHaveBeenCalledWith(
-            baseUrl,
-            expect.objectContaining({
-                title: "title",
-                description: "desc",
-            })
-        );
+        await waitFor(() => {
+            expect(axios.post).toHaveBeenCalledWith(
+                baseUrl,
+                expect.objectContaining({
+                    title: "title",
+                    description: "desc",
+                })
+            );
+        });
     });
 
     it("Todo should be Updated - Put Request", async() => {
