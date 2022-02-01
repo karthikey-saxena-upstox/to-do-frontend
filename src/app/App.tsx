@@ -1,11 +1,9 @@
 import React, { FC } from "react";
 import './App.css';
 import ToDos from "../pages/ToDos";
-import { ToDoStore } from "../stores/todoStore";
 
 const App: FC = () => {
-  const toDoStore = new ToDoStore();
-  return <ToDos store = {toDoStore} />;  
+  return (<ToDos />);  
 }
 
 export default App;

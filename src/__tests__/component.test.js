@@ -21,7 +21,6 @@ describe("components should render without crashing", () => {
         );
         render(<App />);
         await waitFor(() => {
-            // screen.debug();
             expect(screen.getByRole("heading", {name: "ToDo List App"})).toHaveClass("mt-5");
             expect(screen.getByTestId("inputTitle")).toHaveClass("input");
             expect(screen.getByRole("button", {name: "Add"})).toHaveClass("btn");

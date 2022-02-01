@@ -1,19 +1,31 @@
-import React, { FC } from "react";
-import { observer } from "mobx-react-lite";
+import React, { FC, useEffect } from "react";
+import { observer } from "mobx-react";
 import Heading from "../components/Heading";
 import Input from "../components/Input";
 import ToDoList from "../components/ToDoList"; 
-import { ITodo, ITodos, IStore } from "../interfaces/interface";
+import { ITodo, ITodos } from "../interfaces/interface";
+import toDoService from "../service/todoService";
 
-interface Props {
-    store: IStore
-}
+const ToDos: FC = () => {
 
-const ToDos: FC<Props> = observer(({ store }: Props) => {
+    const { toDoItems } = toDoService;
+
+    const fetchToDos = async() => {
+        try {
+            await toDoService.getAllItems();
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        fetchToDos();
+    }, []);
 
     const deleteToDo = async(id: number) => {
         try {
-            store.deleteToDo(id);
+            await toDoService.deleteItem(id);
         }
         catch(err) {
             console.log(err);
@@ -22,7 +34,7 @@ const ToDos: FC<Props> = observer(({ store }: Props) => {
 
     const updateToDo = async(data: ITodos) => {
         try {
-            store.updateToDo(data.id, data);
+            await toDoService.updateItem(data);
         }
         catch(err) {
             console.log(err);
@@ -31,7 +43,7 @@ const ToDos: FC<Props> = observer(({ store }: Props) => {
 
     const addToDo = async(data: ITodo) => {
         try {
-            store.createToDo(data);
+            await toDoService.addItem(data);
         }
         catch(err) {
             console.log(err);
@@ -44,13 +56,13 @@ const ToDos: FC<Props> = observer(({ store }: Props) => {
         <Input change = {(data) => addToDo(data)}/>
         <Heading content = "My List"/>
         <ToDoList 
-            items = {store.toDoItems} 
+            items = {toDoItems} 
             deleteItem = {(id: number) => deleteToDo(id)}
             update = {(data: ITodos) => updateToDo(data)}
         />
     </div>
     );
 
-})
+}
 
-export default ToDos;
+export default observer(ToDos);
